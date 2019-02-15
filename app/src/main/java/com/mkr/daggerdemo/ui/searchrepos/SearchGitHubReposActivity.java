@@ -1,30 +1,97 @@
 package com.mkr.daggerdemo.ui.searchrepos;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.EditText;
 
 import com.mkr.daggerdemo.R;
+import com.mkr.daggerdemo.networking.models.RepoDetails;
 import com.mkr.daggerdemo.tasks.SearchGitHubRepositoriesTask;
 import com.mkr.daggerdemo.ui.BaseActivity;
-import com.mkr.daggerdemo.utils.NetworkUtils;
+import com.mkr.daggerdemo.ui.CustomDialogs;
+import com.mkr.daggerdemo.ui.adapters.GitHubReposRecyclerAdapter;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
-public class SearchGitHubReposActivity extends BaseActivity {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class SearchGitHubReposActivity extends BaseActivity implements
+        SearchGitHubReposContract.View {
+
+    private SearchGitHubReposContract.Presenter mPresenter;
+    private GitHubReposRecyclerAdapter mReposRecyclerAdapter;
+
+    @BindView(R.id.search_editText)
+    EditText mSearchEditText;
+
+    @BindView(R.id.search_results_recyclerView)
+    RecyclerView mRecyclerView;
 
     @Inject
-    NetworkUtils mNetworkUtils;
+    SearchGitHubRepositoriesTask mSearchReposTask;
 
     @Inject
-    SearchGitHubRepositoriesTask task;
+    CustomDialogs mCustomDialogs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_git_hub_repos);
 
+        //bind to butterknife
+        ButterKnife.bind(this);
+
         getApplicationComponent().inject(this);
 
-        task.getSearchRepositories("android");
+        //initialize presenter
+        new SearchGitHubReposPresenter(getResources(),
+                this, mSearchReposTask);
+
+        initializeUI();
+    }
+
+    private void initializeUI() {
+
+        mReposRecyclerAdapter = new GitHubReposRecyclerAdapter();
+
+        mRecyclerView.setAdapter(mReposRecyclerAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @OnClick(R.id.search_button)
+    public void onClickedSearchButton(View view) {
+        mPresenter.searchRepos(mSearchEditText.getText().toString());
+    }
+
+    @Override
+    public void setPresenter(SearchGitHubReposContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void displayRepos(List<RepoDetails> repoDetailsList) {
+        mReposRecyclerAdapter.setReposToDisplay(repoDetailsList);
+    }
+
+    @Override
+    public void showLoader(String message) {
+        super.showLoader(message);
+    }
+
+    @Override
+    public void dismissLoader() {
+        super.dismissLoader();
+    }
+
+    @Override
+    public void showAlert(String title, String message) {
+        mCustomDialogs.showSimpleAlertDialog(this, title, message);
     }
 }

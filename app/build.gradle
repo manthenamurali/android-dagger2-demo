@@ -10,6 +10,10 @@ android {
         versionName rootProject.ext.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -23,6 +27,7 @@ dependencies {
 
     def androidDependencies = rootProject.ext.androidDependencies
     implementation androidDependencies.appCompact
+    implementation androidDependencies.recyclerView
     implementation androidDependencies.constraintLayout
 
     //dagger
@@ -35,4 +40,9 @@ dependencies {
     implementation retrofitDependencies.retrofit
     implementation retrofitDependencies.gsonConverter
     implementation retrofitDependencies.loggingInterceptor
+
+    //dagger
+    def butterknifeDependencies = rootProject.ext.butterknifeDependencies
+    implementation butterknifeDependencies.butterknife
+    annotationProcessor butterknifeDependencies.butterknifeAnnotationProcessor
 }

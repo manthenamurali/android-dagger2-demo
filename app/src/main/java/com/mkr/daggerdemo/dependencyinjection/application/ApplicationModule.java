@@ -2,6 +2,7 @@ package com.mkr.daggerdemo.dependencyinjection.application;
 
 import android.content.Context;
 
+import com.mkr.daggerdemo.ui.CustomDialogs;
 import com.mkr.daggerdemo.utils.NetworkUtils;
 
 import dagger.Module;
@@ -19,5 +20,10 @@ public class ApplicationModule {
     @Provides
     NetworkUtils provideNetworkUtils() {
         return new NetworkUtils();
+    }
+
+    @Provides
+    CustomDialogs provideDialogs() {
+        return new CustomDialogs();
     }
 }

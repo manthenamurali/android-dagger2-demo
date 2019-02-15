@@ -2,6 +2,7 @@ package com.mkr.daggerdemo.tasks;
 
 import android.util.Log;
 
+import com.mkr.daggerdemo.R;
 import com.mkr.daggerdemo.networking.GitHubAPI;
 import com.mkr.daggerdemo.networking.models.SearchReposResponse;
 
@@ -9,7 +10,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchGitHubRepositoriesTask {
+public class SearchGitHubRepositoriesTask extends BaseTask {
 
     private GitHubAPI mGitHubAPI;
 
@@ -17,21 +18,48 @@ public class SearchGitHubRepositoriesTask {
         mGitHubAPI = gitHubAPI;
     }
 
-    public void getSearchRepositories(String searchQuery) {
+    public void searchRepositories(RequestValues request,
+                                   BaseTask.ResponseCallback<SearchGitHubRepositoriesTask.ResponseValues> callback) {
 
-        Call<SearchReposResponse> searchCall = mGitHubAPI.searchForRepository(searchQuery);
+        Call<SearchReposResponse> searchCall = mGitHubAPI.searchForRepository(request.getSearchQuery());
         searchCall.enqueue(new Callback<SearchReposResponse>() {
             @Override
             public void onResponse(Call<SearchReposResponse> call, Response<SearchReposResponse> response) {
 
-                SearchReposResponse searchResponse = response.body();
-                Log.e("mkr", "on response called. " + searchResponse.getTotalCount());
+                final SearchReposResponse searchResponse = response.body();
+                callback.onSuccess(new SearchGitHubRepositoriesTask.ResponseValues(searchResponse));
             }
 
             @Override
             public void onFailure(Call<SearchReposResponse> call, Throwable t) {
-                Log.e("mkr", "failed to saerch repos. Reason = " + t.getMessage());
+                callback.onFailure(t.getMessage());
             }
         });
+    }
+
+    public static final class RequestValues implements BaseTask.RequestValues {
+
+        private final String mSearchQuery;
+
+        public RequestValues(String searchQuery) {
+            mSearchQuery = searchQuery;
+        }
+
+        public String getSearchQuery() {
+            return mSearchQuery;
+        }
+    }
+
+    public static final class ResponseValues implements BaseTask.ResponseValues {
+
+        SearchReposResponse mSearchReposResponse;
+
+        public ResponseValues(SearchReposResponse searchReposResponse) {
+            mSearchReposResponse = searchReposResponse;
+        }
+
+        public SearchReposResponse getReposResponse() {
+            return mSearchReposResponse;
+        }
     }
 }

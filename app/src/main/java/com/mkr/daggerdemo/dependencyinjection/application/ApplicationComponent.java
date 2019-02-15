@@ -1,6 +1,5 @@
 package com.mkr.daggerdemo.dependencyinjection.application;
 
-import com.mkr.daggerdemo.tasks.SearchGitHubRepositoriesTask;
 import com.mkr.daggerdemo.ui.searchrepos.SearchGitHubReposActivity;
 
 import javax.inject.Singleton;

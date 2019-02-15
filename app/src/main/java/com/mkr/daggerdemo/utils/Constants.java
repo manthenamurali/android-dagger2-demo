@@ -1,4 +1,4 @@
-package com.mkr.daggerdemo;
+package com.mkr.daggerdemo.utils;
 
 public class Constants {
 

@@ -1,12 +1,14 @@
 package com.mkr.daggerdemo.dependencyinjection.application;
 
-import com.mkr.daggerdemo.Constants;
+import com.mkr.daggerdemo.utils.Constants;
 import com.mkr.daggerdemo.networking.GitHubAPI;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -16,8 +18,17 @@ public class RESTClientModule {
     @Singleton
     @Provides
     Retrofit getClient() {
+
+        HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
+        logger.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logger)
+                .build();
+
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
+                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
