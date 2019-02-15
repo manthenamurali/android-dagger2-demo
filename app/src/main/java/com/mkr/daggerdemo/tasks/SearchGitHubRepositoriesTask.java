@@ -18,6 +18,11 @@ public class SearchGitHubRepositoriesTask extends BaseTask {
         mGitHubAPI = gitHubAPI;
     }
 
+    /**
+     * search repositories
+     * @param request request for this call
+     * @param callback callback to send the retrofit response
+     */
     public void searchRepositories(RequestValues request,
                                    BaseTask.ResponseCallback<SearchGitHubRepositoriesTask.ResponseValues> callback) {
 

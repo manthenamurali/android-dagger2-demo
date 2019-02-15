@@ -21,6 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * activity where user can search for the repos. The results are showed in a list.
+ * When clicked on a list, will redirect to reperate activity with details
+ */
 public class SearchGitHubReposActivity extends BaseActivity implements
         SearchGitHubReposContract.View {
 

@@ -1,7 +1,6 @@
 package com.mkr.daggerdemo.ui.searchrepos;
 
 import android.content.res.Resources;
-import android.util.Log;
 
 import com.mkr.daggerdemo.R;
 import com.mkr.daggerdemo.tasks.BaseTask;
