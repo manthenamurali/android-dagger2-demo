@@ -1,5 +1,5 @@
 # android-dagger2-demo
-My learning application for using dagger2 and constraint layout. Also used Retrofit and Butterknife.
+Learning application using dagger2 and constraint layout.
 
 ## Annotations :-
 
