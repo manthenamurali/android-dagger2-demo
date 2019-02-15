@@ -33,6 +33,7 @@ dependencies {
     //dagger
     def daggerDependencies = rootProject.ext.daggerDependencies
     implementation daggerDependencies.dagger
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     annotationProcessor daggerDependencies.daggerAnnotationProcessor
 
     //retrofit

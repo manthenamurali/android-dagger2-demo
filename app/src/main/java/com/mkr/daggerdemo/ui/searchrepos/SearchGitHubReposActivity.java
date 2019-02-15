@@ -12,6 +12,8 @@ import com.mkr.daggerdemo.tasks.SearchGitHubRepositoriesTask;
 import com.mkr.daggerdemo.ui.BaseActivity;
 import com.mkr.daggerdemo.ui.CustomDialogs;
 import com.mkr.daggerdemo.ui.adapters.GitHubReposRecyclerAdapter;
+import com.mkr.daggerdemo.ui.repodetails.RepoDetailsActivity;
+import com.mkr.daggerdemo.utils.Constants;
 
 import java.util.List;
 
@@ -26,7 +28,8 @@ import butterknife.OnClick;
  * When clicked on a list, will redirect to reperate activity with details
  */
 public class SearchGitHubReposActivity extends BaseActivity implements
-        SearchGitHubReposContract.View {
+        SearchGitHubReposContract.View,
+        GitHubReposRecyclerAdapter.OnRepoClickedListener {
 
     private SearchGitHubReposContract.Presenter mPresenter;
     private GitHubReposRecyclerAdapter mReposRecyclerAdapter;
@@ -64,6 +67,7 @@ public class SearchGitHubReposActivity extends BaseActivity implements
     private void initializeUI() {
 
         mReposRecyclerAdapter = new GitHubReposRecyclerAdapter();
+        mReposRecyclerAdapter.setOnRepoClickedListener(this);
 
         mRecyclerView.setAdapter(mReposRecyclerAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -97,5 +101,18 @@ public class SearchGitHubReposActivity extends BaseActivity implements
     @Override
     public void showAlert(String title, String message) {
         mCustomDialogs.showSimpleAlertDialog(this, title, message);
+    }
+
+    @Override
+    public void onClickedRepo(RepoDetails clickedRepo) {
+
+        Bundle b = new Bundle();
+        b.putString(Constants.KEY_NAME, clickedRepo.getName());
+        b.putString(Constants.KEY_FULL_NAME, clickedRepo.getFullName());
+        b.putString(Constants.KEY_DESCRIPTION, clickedRepo.getDescription());
+        b.putString(Constants.KEY_URL, clickedRepo.getUrl());
+        b.putString(Constants.KEY_AVATAR_URL, clickedRepo.getOwner().getAvatarURL());
+
+        RepoDetailsActivity.open(this, b);
     }
 }

@@ -1,5 +1,6 @@
 package com.mkr.daggerdemo.dependencyinjection.application;
 
+import com.mkr.daggerdemo.ui.repodetails.RepoDetailsActivity;
 import com.mkr.daggerdemo.ui.searchrepos.SearchGitHubReposActivity;
 
 import javax.inject.Singleton;
@@ -12,4 +13,6 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     void inject(SearchGitHubReposActivity searchGitHubReposActivity);
+
+    void inject(RepoDetailsActivity repoDetailsActivity);
 }

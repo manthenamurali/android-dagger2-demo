@@ -15,9 +15,16 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class GitHubReposRecyclerAdapter extends RecyclerView.Adapter<GitHubReposRecyclerAdapter.ReposViewHolder> {
 
+    public interface OnRepoClickedListener {
+
+        void onClickedRepo(RepoDetails clickedRepo);
+    }
+
+    private OnRepoClickedListener mOnRepoClickedListener;
     private List<RepoDetails> mRepoDetailsList = new ArrayList<>();
 
     static class ReposViewHolder extends RecyclerView.ViewHolder {
@@ -28,15 +35,32 @@ public class GitHubReposRecyclerAdapter extends RecyclerView.Adapter<GitHubRepos
         @BindView(R.id.repo_url)
         TextView mRepoURL;
 
+        private OnRepoClickedListener mOnRepoClickedListener;
+        private RepoDetails mRepoDetails;
+
         ReposViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
+        @OnClick(R.id.item_container)
+        void onClickedItem() {
+            mOnRepoClickedListener.onClickedRepo(mRepoDetails);
+        }
+
+        void setOnRepoClickedListener(OnRepoClickedListener onRepoClickedListener) {
+            this.mOnRepoClickedListener = onRepoClickedListener;
+        }
+
         void updateDetails(RepoDetails repoDetails) {
+            mRepoDetails = repoDetails;
             mRepoName.setText(repoDetails.getFullName().trim());
             mRepoURL.setText(repoDetails.getUrl());
         }
+    }
+
+    public void setOnRepoClickedListener(OnRepoClickedListener onRepoClickedListener) {
+        this.mOnRepoClickedListener = onRepoClickedListener;
     }
 
     public void setReposToDisplay(List<RepoDetails> repoDetailsList) {
@@ -56,6 +80,7 @@ public class GitHubReposRecyclerAdapter extends RecyclerView.Adapter<GitHubRepos
     public void onBindViewHolder(@NonNull ReposViewHolder reposViewHolder, int i) {
         final RepoDetails repoDetails = mRepoDetailsList.get(i);
         reposViewHolder.updateDetails(repoDetails);
+        reposViewHolder.setOnRepoClickedListener(mOnRepoClickedListener);
     }
 
     @Override
