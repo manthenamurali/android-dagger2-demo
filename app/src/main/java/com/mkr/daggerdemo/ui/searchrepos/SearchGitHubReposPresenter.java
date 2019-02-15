@@ -1,6 +1,7 @@
 package com.mkr.daggerdemo.ui.searchrepos;
 
 import android.content.res.Resources;
+import android.text.TextUtils;
 
 import com.mkr.daggerdemo.R;
 import com.mkr.daggerdemo.tasks.BaseTask;
@@ -26,9 +27,15 @@ public class SearchGitHubReposPresenter implements
 
     @Override
     public void searchRepos(String repoToSearch) {
-        mView.showLoader(mResources.getString(R.string.fetching_repos));
-        mSearchReposTask.searchRepositories(new SearchGitHubRepositoriesTask.RequestValues(repoToSearch),
-                searchReposResponse);
+
+        if(TextUtils.isEmpty(repoToSearch)) {
+            mView.showAlert(mResources.getString(R.string.alert),
+                    mResources.getString(R.string.enter_repo_name));
+        } else {
+            mView.showLoader(mResources.getString(R.string.fetching_repos));
+            mSearchReposTask.searchRepositories(new SearchGitHubRepositoriesTask.RequestValues(repoToSearch),
+                    searchReposResponse);
+        }
     }
 
     /**
@@ -41,7 +48,8 @@ public class SearchGitHubReposPresenter implements
         public void onSuccess(SearchGitHubRepositoriesTask.ResponseValues response) {
             mView.dismissLoader();
 
-            if(response.getReposResponse().getRepoDetailsList().size() == 0) {
+            if(response.getReposResponse().getRepoDetailsList() == null
+                    || response.getReposResponse().getRepoDetailsList().size() == 0) {
                 mView.showAlert(mResources.getString(R.string.alert),
                         mResources.getString(R.string.no_repos_found));
             } else {

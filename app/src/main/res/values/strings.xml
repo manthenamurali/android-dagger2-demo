@@ -5,6 +5,7 @@
     <string name="fetching_repos">Fetching repos&#8230;</string>
 
     <string name="alert">Alert</string>
+    <string name="enter_repo_name">Please enter a repo name.</string>
     <string name="failed_to_get_details">Failed to get repos.</string>
     <string name="no_repos_found">No repositories found.</string>
 

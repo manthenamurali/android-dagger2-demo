@@ -22,5 +22,7 @@ public interface RepoDetailsContract {
          * @param repoDetailsBundle bundle
          */
         void getRepoDetails(Bundle repoDetailsBundle);
+
+        String getRepoUrl();
     }
 }

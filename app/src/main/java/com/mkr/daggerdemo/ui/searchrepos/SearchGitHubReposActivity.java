@@ -75,6 +75,7 @@ public class SearchGitHubReposActivity extends BaseActivity implements
 
     @OnClick(R.id.search_button)
     public void onClickedSearchButton(View view) {
+        super.dismissKeyboard(mSearchEditText);
         mPresenter.searchRepos(mSearchEditText.getText().toString());
     }
 

@@ -2,13 +2,12 @@ package com.mkr.daggerdemo.ui.repodetails;
 
 import android.os.Bundle;
 
-import com.google.gson.annotations.SerializedName;
-import com.mkr.daggerdemo.networking.models.RepoDetails;
 import com.mkr.daggerdemo.utils.Constants;
 
 public class RepoDetailsPresenter implements RepoDetailsContract.Presenter {
 
     private RepoDetailsContract.View mView;
+    private RepoDetailsToDisplay mRepoDetails;
 
     RepoDetailsPresenter(RepoDetailsContract.View view) {
         mView = view;
@@ -18,14 +17,18 @@ public class RepoDetailsPresenter implements RepoDetailsContract.Presenter {
     @Override
     public void getRepoDetails(Bundle repoDetailsBundle) {
 
-        RepoDetailsToDisplay repoDetails = new RepoDetailsToDisplay();
-        repoDetails.setName(repoDetailsBundle.getString(Constants.KEY_NAME));
-        repoDetails.setAvatarURL(repoDetailsBundle.getString(Constants.KEY_AVATAR_URL));
-        repoDetails.setDescription(repoDetailsBundle.getString(Constants.KEY_DESCRIPTION));
-        repoDetails.setFullName(repoDetailsBundle.getString(Constants.KEY_FULL_NAME));
-        repoDetails.setUrl(repoDetailsBundle.getString(Constants.KEY_URL));
+        mRepoDetails = new RepoDetailsToDisplay();
+        mRepoDetails.setName(repoDetailsBundle.getString(Constants.KEY_NAME));
+        mRepoDetails.setAvatarURL(repoDetailsBundle.getString(Constants.KEY_AVATAR_URL));
+        mRepoDetails.setDescription(repoDetailsBundle.getString(Constants.KEY_DESCRIPTION));
+        mRepoDetails.setFullName(repoDetailsBundle.getString(Constants.KEY_FULL_NAME));
+        mRepoDetails.setUrl(repoDetailsBundle.getString(Constants.KEY_URL));
 
-        mView.displayRepoDetails(repoDetails);
+        mView.displayRepoDetails(mRepoDetails);
+    }
+
+    public String getRepoUrl() {
+        return mRepoDetails.getUrl();
     }
 
     public static class RepoDetailsToDisplay {
