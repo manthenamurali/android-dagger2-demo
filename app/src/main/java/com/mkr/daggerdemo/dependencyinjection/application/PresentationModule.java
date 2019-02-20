@@ -11,7 +11,6 @@ import dagger.Provides;
 @Module
 public class PresentationModule {
 
-    @Singleton
     @Provides
     SearchGitHubRepositoriesTask getGitHubSearchTask(GitHubAPI gitHubApi) {
         return new SearchGitHubRepositoriesTask(gitHubApi);

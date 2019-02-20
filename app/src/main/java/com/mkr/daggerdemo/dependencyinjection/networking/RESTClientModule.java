@@ -1,4 +1,4 @@
-package com.mkr.daggerdemo.dependencyinjection.application;
+package com.mkr.daggerdemo.dependencyinjection.networking;
 
 import com.mkr.daggerdemo.utils.Constants;
 import com.mkr.daggerdemo.networking.GitHubAPI;

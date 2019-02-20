@@ -46,7 +46,6 @@ public class SearchGitHubReposActivity extends BaseActivity implements
     @Inject
     CustomDialogs mCustomDialogs;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
