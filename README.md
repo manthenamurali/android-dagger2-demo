@@ -14,3 +14,7 @@ Learning application using dagger2 and constraint layout.
 
 ## References :-
 https://android.jlelse.eu/dagger-2-part-i-basic-principles-graph-dependencies-scopes-3dfd032ccd82
+https://stackoverflow.com/questions/42387631/singleton-component-cannot-depend-on-scoped-components
+
+Constraint layout :- https://www.raywenderlich.com/9475-constraintlayout-tutorial-for-android-complex-layouts
+Butterknife :- http://jakewharton.github.io/butterknife/
